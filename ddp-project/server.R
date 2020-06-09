@@ -10,26 +10,26 @@
 library(shiny)
 shinyServer(function(input, output) {
 
-        model1 <- lm(mpg ~ wt, data = mtcars)
-        model2 <- lm(mpg ~ hp, data = mtcars)
-        model3 <- lm(mpg ~ disp, data = mtcars)
+        model1 <- lm(Fertility ~ Agriculture, data = swiss)
+        model2 <- lm(Fertility ~ Education, data = swiss)
+        model3 <- lm(Fertility ~ Catholic, data = swiss)
         model1pred <- reactive({
-            mpgInput <- input$sliderwt
-            predict(model1, newdata = data.frame(wt = mpgInput))
+            mpgInput <- input$sliderag
+            predict(model1, newdata = data.frame(Agriculture = mpgInput))
         })
         model2pred <- reactive({
-                mpgInput <- input$sliderhp
-                predict(model2, newdata = data.frame(hp = mpgInput))
+                mpgInput <- input$slidered
+                predict(model2, newdata = data.frame(Education = mpgInput))
         })
         model3pred <- reactive({
-                mpgInput <- input$sliderdisp
-                predict(model3, newdata = data.frame(disp = mpgInput))
+                mpgInput <- input$slidercat
+                predict(model3, newdata = data.frame(Catholic = mpgInput))
         })
         output$plot1 <- renderPlot({
-            mpgInput <- input$sliderwt
-            plot(mtcars$wt,mtcars$mpg,  xlab = "Weight", 
-                 ylab = "Miles Per Gallon", bty = "n", pch = 16,
-                 xlim = c(1,6), ylim = c(10,50))
+            mpgInput <- input$sliderag
+            plot(swiss$Agriculture,swiss$mpg,  xlab = "Agriculture", 
+                 ylab = "Fertility", bty = "n", pch = 16,
+                 xlim = c(0,100), ylim = c(0,100))
                 abline(model1, col = "red", lwd = 2)
             points(mpgInput, model1pred(), col = "red", pch = 16, cex = 2)
         })
@@ -37,10 +37,10 @@ shinyServer(function(input, output) {
             model1pred()
         })
         output$plot2 <- renderPlot({
-                mpgInput <- input$sliderhp
-                plot(mtcars$hp,mtcars$mpg,  xlab = "power", 
-                     ylab = "Miles Per Gallon", bty = "n", pch = 16,
-                     xlim = c(100,400), ylim = c(10,50))
+                mpgInput <- input$slidered
+                plot(swiss$Education,swiss$Fertility,  xlab = "Education", 
+                     ylab = "Fertility", bty = "n", pch = 16,
+                     xlim = c(1,60), ylim = c(0,100))
                 abline(model2, col = "red", lwd = 2)
                 points(mpgInput, model2pred(), col = "red", pch = 16, cex = 2)
         })
@@ -48,10 +48,10 @@ shinyServer(function(input, output) {
                 model2pred()
         })
         output$plot3 <- renderPlot({
-                mpgInput <- input$sliderdisp
-                plot(mtcars$disp,mtcars$mpg,  xlab = "displacement", 
-                     ylab = "Miles Per Gallon", bty = "n", pch = 16,
-                     xlim = c(50,500), ylim = c(10,50))
+                mpgInput <- input$slidercat
+                plot(swiss$Catholic,swiss$Fertility,  xlab = "Catholic", 
+                     ylab = "Fertility", bty = "n", pch = 16,
+                     xlim = c(0,100), ylim = c(0,100))
                 abline(model3, col = "red", lwd = 2)
                 points(mpgInput, model3pred(), col = "red", pch = 16, cex = 2)
         })
