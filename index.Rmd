@@ -1,0 +1,54 @@
+---
+title: "Developing Data Product project"
+author: "Amirhossein Vahidi"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: slidy_presentation
+---
+## Investigating the Fertility based on swiss dataset
+
+```{r swiss, echo=FALSE}
+head(swiss)
+```
+## Linear regression based on Agriculture 
+- As you can see linear model can not show clear the correlation between fertility and percentage of male working agriculture
+
+```{r library, include=FALSE}
+library(plotly)
+```
+```{r plot1, echo=FALSE,message = FALSE,warning =FALSE}
+data("swiss")
+c<-plot_ly(data = swiss, x = ~ Agriculture, y = ~ Fertility, type = "scatter",mode ="markers" )
+p<-add_trace(c, 
+     x = swiss$Agriculture,
+     y = fitted(lm(Fertility ~ Agriculture, swiss)),
+     mode = "lines"
+     )
+p
+```
+
+## Linear regression based on Education
+- education and fertility are correlated and with increasing the education thestandardize fertility is decreasing
+
+```{r plot2, echo=FALSE,message = FALSE,warning =FALSE}
+c<-plot_ly(data = swiss, x = ~ Education, y = ~ Fertility, type = "scatter",mode ="markers" )
+p<-add_trace(c, 
+     x = swiss$Education,
+     y = fitted(lm(Fertility ~ Education, swiss)),
+     mode = "lines"
+     )
+p
+```
+
+## Linear regression based on Catholic 
+- There is a correlation between percenatge of catholics and fertility
+
+```{r plot3, echo=FALSE,message = FALSE,warning =FALSE}
+c<-plot_ly(data = swiss, x = ~ Catholic, y = ~ Fertility, type = "scatter",mode ="markers" )
+p<-add_trace(c, 
+     x = swiss$Catholic,
+     y = fitted(lm(Fertility ~ Catholic, swiss)),
+     mode = "lines"
+     )
+p
+```
+
